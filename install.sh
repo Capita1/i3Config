@@ -40,7 +40,7 @@ else
 	sudo pacman -Syu $flags base-devel  
 	echo -e "${YEL}\nBaixando Apps...\n${NC}"
 	#Interface
-	sudo pacman -S $flags i3wm rofi lxappearance
+	sudo pacman -S $flags lightdm lightdm-gtk-greeter i3-wm rofi lxappearance polybar
 	#Apps
 	sudo pacman -S $flags alacritty pavucontrol blueman thunar thunar-media-tags-plugin thunar-shares-plugin thunar-volman ffmpegthumbnailer tumbler gvfs gparted gvfs-smb smbclient
 	#Texto
