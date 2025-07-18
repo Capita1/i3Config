@@ -4,7 +4,7 @@ BLU='\033[0;34m'
 RED='\033[0;31m'
 YEL='\033[0;33m'
 NC='\033[0m' 
-if [ "$(pwd)" = "/home/$(whoami)/.config/dotConfig" ]; then
+if [ "$(pwd)" = "/home/$(whoami)/.config/i3Config" ]; then
 	echo -e "${BLU}\n░░░░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░"
 	echo -e "${BLU}░░░██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░"
 	echo -e "${BlU}░░░██║░░╚═╝██║░░██║██╔██╗██║█████╗░░██║██║░░██╗░"
@@ -23,7 +23,7 @@ echo -e "${YEL}\nConfigs\n${NC}"
 apagar="$(ls -h config/)"
 cd ../
 sudo rm -rf $apagar
-cd dotConfig/
+cd i3Config/
 cp -rf config/* ../
 #links em bin
 sudo ln -rsf scripts/* /bin/
