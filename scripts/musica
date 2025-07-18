@@ -31,11 +31,10 @@ if [ "$1" = "select" ]; then
 	else
 		killall rofi
 		cd "$2"
-		sele=$(echo -e "0:  Tocar música \n1: 󱧺 Tocar pasta\n2: 󰐑 Tocar playlist\n3: 󰴙 Tocar todas\n4: 󰥠 Mudar player" | rofi -dmenu | cut -d ':' -f 1)
+		sele=$(echo -e "1:  Tocar música \n2: 󱧺 Tocar pasta\n3: 󰴙 Tocar todas\n4: 󰥠 Mudar player" | rofi -dmenu | cut -d ':' -f 1)
 		case "$sele" in		
-			0) musica="$(find . -type f | cut -d '/' -f 2,3,4,5 | rofi -dmenu)";;
-			1) musica="$(ls -h | rofi -dmenu)";;
-			2) musica=".playlists/$(ls .playlists | rofi -dmenu)";;
+			1) musica="$(find . -type f | cut -d '/' -f 2,3,4,5 | rofi -dmenu)";;
+			2) musica="$(ls -h | rofi -dmenu)";;
 			3) ln -rsf */* .todas/ ; musica=".todas";;
 			4) musica player;;
 		esac
