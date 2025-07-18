@@ -1,0 +1,5 @@
+#!/bin/bash
+#P Progress
+#a Archive
+#c Checksum
+rsync -Pac --inplace --no-whole-file 192.168.0.63:/mnt/HD/Músicas /home/gabriel/

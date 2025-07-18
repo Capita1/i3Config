@@ -1,0 +1,89 @@
+#!/bin/bash
+
+player='playerctl --player=vlc'
+
+infos () {
+	if [ "$($player status)" = "Playing" ]; then
+		ico="󰏤"
+	fi
+	if [ "$($player status)" = "Paused" ]; then
+		ico="󰐊"
+	fi
+	artista=$($player metadata --format "{{ artist }}")
+	titulo=$($player metadata --format "{{ title }}")
+	album=$($player metadata --format "{{ album }}")
+	volume=$($player metadata --format "{{ volume * 100 }}" | cut -d "." -f 1)
+	duracao=$($player metadata --format '{{duration(position)}}/{{duration(mpris:length)}}')  
+}
+notify () {
+notify-send -e "$(echo -e "$ico $artista - $titulo\n󰕾 $volume%\t󰎅 $album\t󱎫 $duracao")" -h string:x-canonical-private-synchronous:anything -t 2000
+}
+
+#se $1 igual player
+if [ "$1" = "player" ]; then
+	pla=$(echo -e "player='playerctl --player=$(playerctl --list-all | rofi -dmenu )'")
+	sed -i "3s/.*/$pla/" ~/scripts/musica
+fi
+#se $1 igual select
+if [ "$1" = "select" ]; then
+	if [ -z "$2" ]; then #se $2 estiver vazio
+		sh musica select /home/$(whoami)/Músicas
+	else
+		killall rofi
+		cd "$2"
+		sele=$(echo -e "0:  Tocar música \n1: 󱧺 Tocar pasta\n2: 󰐑 Tocar playlist\n3: 󰴙 Tocar todas\n4: 󰥠 Mudar player" | rofi -dmenu | cut -d ':' -f 1)
+		case "$sele" in		
+			0) musica="$(find . -type f | cut -d '/' -f 2,3,4,5 | rofi -dmenu)";;
+			1) musica="$(ls -h | rofi -dmenu)";;
+			2) musica=".playlists/$(ls .playlists | rofi -dmenu)";;
+			3) ln -rsf */* .todas/ ; musica=".todas";;
+			4) musica player;;
+		esac
+		if [ "$musica" = ".playlists/" ]; then
+			exit 0
+		fi
+		if [ -n "$musica" ]; then
+			killall vlc
+			cvlc -Z "$musica"
+			exit 0
+		fi
+	fi
+elif [ -n "$1" ]; then #se $1 não está vazio
+	$player $1 $2
+fi
+infos
+#se $1 igual a tocando
+if [ "$1" = "tocando" ]; then
+	echo -e "$ico"
+	exit 0
+fi
+#se $1 igual a mais
+if [ "$1" = "mais" ]; then
+	text="$titulo\n$artista\n$album"
+	printf "{ \"text\": \"%s\", \"tooltip\": \"%s\",}\n" \
+	       "$text" "󰕾 $volume%"
+	exit 0
+fi
+if [ "$1" = "cava" ]; then
+layer=$(hyprctl layers | grep kitty | cut -d ":" -f 5)
+if [ -z "$layer" ]; then
+		kitty +kitten panel -o font_size=1 -o background_opacity=0.0 --edge background cava
+		exit 0
+	else
+		kill $layer
+		exit 0
+	fi
+fi
+#se $1 está vazio
+if [ -z "$1" ]; then
+	text="$titulo\n$artista"
+	if [ -z "$titulo" ]; then #se $titulo está vazio
+	text=""
+	fi
+	printf "{ \"text\": \"%s\", \"tooltip\": \"%s\",}\n" \
+	       "$text" "󰕾 $volume%"
+	exit 0
+fi
+infos
+notify
+exit 0
