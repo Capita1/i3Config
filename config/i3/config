@@ -35,6 +35,14 @@ bindsym $mod+space exec rofi -show drun
 #explorer
 bindsym $mod+e exec Thunar
 
+#MUSICA
+bindsym $mod+Mod1+space exec musica play-pause
+bindsym $mod+Mod1+m exec musica select
+bindsym $mod+Mod1+h exec musica previous
+bindsym $mod+Mod1+l exec musica next
+bindsym $mod+Mod1+k exec musica volume 0.1+
+bindsym $mod+Mod1+j exec musica volume 0.1-
+
 #fechar janela
 bindsym $mod+c kill
 #mudar foco
