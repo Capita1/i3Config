@@ -9,6 +9,7 @@ infos () {
 	if [ "$($player status)" = "Paused" ]; then
 		ico="󰐊"
 	fi
+	foto=$($player metadata mpris:artUrl)
 	artista=$($player metadata --format "{{ artist }}")
 	titulo=$($player metadata --format "{{ title }}")
 	album=$($player metadata --format "{{ album }}")
@@ -16,7 +17,7 @@ infos () {
 	duracao=$($player metadata --format '{{duration(position)}}/{{duration(mpris:length)}}')  
 }
 notify () {
-notify-send -e "$(echo -e "$ico $artista - $titulo\n󰕾 $volume%\t󰎅 $album\t󱎫 $duracao")" -h string:x-canonical-private-synchronous:anything -t 2000
+notify-send -i $foto -e "$(echo -e "$ico $artista - $titulo\n󰕾 $volume%\t󰎅 $album\t󱎫 $duracao")" -h string:x-canonical-private-synchronous:anything -t 2000
 }
 
 #se $1 igual player
