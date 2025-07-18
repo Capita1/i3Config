@@ -19,17 +19,16 @@ else
 fi
 
 echo -e "${YEL}\nConfigs\n${NC}"
-#copia configs
+#link configs
 apagar="$(ls -h config/)"
 cd ../
 sudo rm -rf $apagar
 cd i3Config/
-cp -rf config/* ../
+ln -rsf config/* ../
 #links em bin
 sudo ln -rsf scripts/* /bin/
 #links em home
-sudo rm ~/.bashrc ;  sudo rm ~/.profile 
-sudo ln -rsf home/.* ~/ 
+sudo rm ~/.bashrc ; sudo ln -rsf home/.* ~/ 
 #links em hosts
 sudo rm /etc/hosts 
 sudo ln -rsf etc/hosts /etc/ 
